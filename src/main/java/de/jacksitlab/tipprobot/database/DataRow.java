@@ -1,5 +1,12 @@
 package de.jacksitlab.tipprobot.database;
 
-public class DataRow {
+import java.util.ArrayList;
+
+public class DataRow extends ArrayList<String>{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7687284840715269121L;
 
 }

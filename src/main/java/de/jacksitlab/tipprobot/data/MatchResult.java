@@ -2,6 +2,10 @@ package de.jacksitlab.tipprobot.data;
 
 public class MatchResult {
 
+	public static final int WIN = 1;
+	public static final int DRAW = 0;
+	public static final int LOOSE = -1;
+	
 	private int homePoints;
 	private int guestPoints;
 

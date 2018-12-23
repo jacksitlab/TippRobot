@@ -3,8 +3,8 @@ package de.jacksitlab.tipprobot.data;
 public class Match {
 
 	public final int gameId;
-	public final Team home;
-	public final Team guest;
+	public final Team homeTeam;
+	public final Team guestTeam;
 	private MatchResult result;
 	
 	public void setResult(int homePts,int guestPts)
@@ -17,8 +17,16 @@ public class Match {
 	public Match(int id,Team home,Team guest)
 	{
 		this.gameId = id;
-		this.home = home;
-		this.guest = guest;
+		this.homeTeam = home;
+		this.guestTeam = guest;
+	}
+
+	public MatchResult getResult() {
+		return this.result;
+	}
+
+	public boolean hasResult() {
+		return this.result!=null;
 	}
 	
 }

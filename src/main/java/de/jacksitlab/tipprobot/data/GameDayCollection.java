@@ -18,4 +18,18 @@ public class GameDayCollection extends ArrayList<GameDay> {
 		return null;
 	}
 
+	public MatchCollection getLastGames(int gameday, Team homeTeam) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GameDay getByGameDay(int gd) {
+		for(GameDay d: this)
+		{
+			if(d.gameDay==gd)
+				return d;
+		}
+		return null;
+	}
+
 }
