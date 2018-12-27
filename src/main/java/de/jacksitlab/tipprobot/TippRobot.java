@@ -14,6 +14,7 @@ import de.jacksitlab.tipprobot.database.DataRow;
 import de.jacksitlab.tipprobot.database.DataTable;
 import de.jacksitlab.tipprobot.database.Database;
 import de.jacksitlab.tipprobot.database.DatabaseConfig;
+import de.jacksitlab.tipprobot.database.MeineLigaDatabase;
 
 public class TippRobot {
 
@@ -34,14 +35,8 @@ public class TippRobot {
 	}
 	private void loadTeams(DatabaseConfig dbConfig)
 	{
-		String query  = "";
-		Database db = new Database(dbConfig);
-		DataTable dt = db.getTable(query);
-		this.teams = new TeamCollection();
-		for(DataRow row : dt.getRows())
-		{
-			this.teams.add(Team.fromDBRow(row));
-		}
+		MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
+		this.teams = db.loadTeams(this.ligaId);
 	}
 	private void loadLigaGames(DatabaseConfig dbConfig) {
 		

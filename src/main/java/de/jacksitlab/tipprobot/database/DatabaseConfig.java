@@ -45,7 +45,7 @@ public class DatabaseConfig {
 	}
 	
 	
-	public DatabaseConfig(String filename) throws JSONException, IOException {
+	private DatabaseConfig(String filename) throws JSONException, IOException {
 		JSONObject o = new JSONObject(String.join("\n", Files.readAllLines(new File(filename).toPath())));
 		this.host = o.getString("host");
 		this.port = o.getInt("port");

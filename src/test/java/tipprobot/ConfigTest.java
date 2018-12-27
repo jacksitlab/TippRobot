@@ -17,7 +17,7 @@ public class ConfigTest {
 	public void test() {
 		DatabaseConfig cfg=null;
 		try {
-			cfg =new DatabaseConfig(TESTCONFIG_FILENAME);
+			cfg =DatabaseConfig.getInstance(TESTCONFIG_FILENAME);
 		} catch (JSONException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {

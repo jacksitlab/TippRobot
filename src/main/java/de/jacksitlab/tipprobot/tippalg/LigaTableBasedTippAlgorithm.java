@@ -49,7 +49,6 @@ public class LigaTableBasedTippAlgorithm implements TippAlgorithm{
 			//fix home points to loose
 			if(homePts>=guestPts)
 				homePts = guestPts-1;
-			
 		}
 			
 		return new MatchTipp(m, homePts, guestPts);

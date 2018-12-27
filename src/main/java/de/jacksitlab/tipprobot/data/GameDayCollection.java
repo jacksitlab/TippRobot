@@ -9,10 +9,17 @@ public class GameDayCollection extends ArrayList<GameDay> {
 	 */
 	private static final long serialVersionUID = -2768347145761276702L;
 
+	public boolean contains(int gameday) {
+		for (GameDay gd : this) {
+			if (gd.gameDay == gameday)
+				return true;
+		}
+		return false;
+	}
+
 	public MatchCollection getGames(int gameday) {
-		for(GameDay gd :this)
-		{
-			if(gd.gameDay == gameday)
+		for (GameDay gd : this) {
+			if (gd.gameDay == gameday)
 				return gd.getMatches();
 		}
 		return null;
@@ -24,9 +31,8 @@ public class GameDayCollection extends ArrayList<GameDay> {
 	}
 
 	public GameDay getByGameDay(int gd) {
-		for(GameDay d: this)
-		{
-			if(d.gameDay==gd)
+		for (GameDay d : this) {
+			if (d.gameDay == gd)
 				return d;
 		}
 		return null;
