@@ -92,6 +92,7 @@ public class LigaTable {
 		int d=0;
 		LOG.debug("searching for matchday after"+date);
 		for(GameDay gd:this.gameDays) {
+//			LOG.debug("gd "+gd.gameDay+ " from "+gd.getStartDate()+" to "+gd.getEndDate());
 			if(gd.getStartDate().after(date))
 			{
 				d=gd.gameDay;

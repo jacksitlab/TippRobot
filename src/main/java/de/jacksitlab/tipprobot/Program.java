@@ -40,7 +40,7 @@ public class Program {
 			error(e);
 		}
 		MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
-		//db.loadTeamsById(new String[] {"279"});
+		db.loadTeamsById(new String[] {"279"});
 		HashMap<Integer, String> ligas = db.loadLigas();
 		LOG.debug(ligas);
 		if (ligas.containsKey(ligaId)) {

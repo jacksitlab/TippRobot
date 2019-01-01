@@ -20,14 +20,14 @@ public class MeineLigaDatabase extends Database {
 	private static final String TABLENAME_TEAMS = DBPREFIX + "liga_mannschaften";
 	private static final String TABLENAME_MATCHES = DBPREFIX + "liga_spiele";
 	private static final String TABLENAME_LIGAS = DBPREFIX +  "liga_liga";
-	private static final String TEAM_SELECT_QUERY = "SELECT `id`, `title` FROM " + TABLENAME_TEAMS
+	private static final String TEAM_SELECT_QUERY = "SELECT `id`, `title`, `liga_id` FROM " + TABLENAME_TEAMS
 			+ " WHERE liga_id=%d";
 	private static final String MATCHES_SELECT_QUERY = "SELECT `id`, `spieltag`, `heim_id`, `gast_id`, `angesetzt` FROM "
 			+ TABLENAME_MATCHES + " WHERE `liga_id`=%d";
 
 	private static final String LIGA_SELECT_QUERY = "SELECT `id`,`title` FROM "+TABLENAME_LIGAS ;
 
-	private static final String TEAMBYID_SELECT_QUERY = "SELECT `id`, `title` FROM "+TABLENAME_TEAMS+ " WHERE `id` in (%s)";
+	private static final String TEAMBYID_SELECT_QUERY = "SELECT `id`, `title`, `liga_id` FROM "+TABLENAME_TEAMS+ " WHERE `id` in (%s)";
 
 	public MeineLigaDatabase(DatabaseConfig dbConfig) {
 		super(dbConfig);
@@ -93,7 +93,7 @@ public class MeineLigaDatabase extends Database {
 					if (mid > 0 && homeTeam != null && guestTeam != null) {
 						table.addMatch(new Match(mid, homeTeam, guestTeam, date), gd);
 					} else
-						LOG.warn("found unknown match entry");
+						LOG.warn("found unknown match entry for "+row.get(COLIDX_HOMETEAMID)+" - "+row.get(COLIDX_GUESTTEAMID));
 				} catch (NumberFormatException e) {
 
 				} catch (ParseException e) {

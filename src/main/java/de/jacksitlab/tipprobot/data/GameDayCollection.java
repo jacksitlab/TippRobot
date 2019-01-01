@@ -1,6 +1,7 @@
 package de.jacksitlab.tipprobot.data;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class GameDayCollection extends ArrayList<GameDay> {
 
@@ -9,6 +10,12 @@ public class GameDayCollection extends ArrayList<GameDay> {
 	 */
 	private static final long serialVersionUID = -2768347145761276702L;
 
+	@Override
+	public boolean add(GameDay e) {
+		boolean b=super.add(e);
+		this.sort(GameDayComparator.getInstance());
+		return b;
+	}
 	public boolean contains(int gameday) {
 		for (GameDay gd : this) {
 			if (gd.gameDay == gameday)
@@ -43,5 +50,18 @@ public class GameDayCollection extends ArrayList<GameDay> {
 		if(x!=null)
 			x.addMatch(m);
 	}
+	private static class GameDayComparator implements Comparator<GameDay>{
 
+		private static GameDayComparator mObj;
+		public static GameDayComparator getInstance() {
+			if(mObj==null)
+				mObj=new GameDayComparator();
+			return mObj;
+		}
+		@Override
+		public int compare(GameDay o1, GameDay o2) {
+			return o1.gameDay-o2.gameDay;
+		}
+		
+	}
 }
