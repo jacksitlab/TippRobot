@@ -1,23 +1,39 @@
 package de.jacksitlab.tipprobot.data;
 
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
 
 public class LigaTable {
 
+	private static final Logger LOG = Logger.getLogger(LigaTable.class.getName());
+	
 	public final int id;
 	private TeamStatsCollection teamsList;
+	private final GameDayCollection gameDays;
 	private boolean recalcFlag;
 
+	public GameDayCollection getMatches() {
+		return this.gameDays;
+	}
+	
 	public LigaTable(int id, TeamCollection tc) {
 		this.id = id;
+		this.teamsList = new TeamStatsCollection();
 		for (Team team : tc) {
 			this.teamsList.add(new TeamStats(team.getId()));
 		}
+		this.gameDays = new GameDayCollection();
 		this.recalcFlag = true;
 	}
 
-	public void addMatch(Match m) {
+	public void addMatch(Match m,int gameDay) {
+		if(!this.gameDays.contains(gameDay))
+		{
+			this.gameDays.add(new GameDay(gameDay));
+		}
+		this.gameDays.addMatch(gameDay,m);
 		TeamStats shome = this.teamsList.getById(m.homeTeam.getId());
 		TeamStats sguest = this.teamsList.getById(m.guestTeam.getId());
 		if (m.hasResult()) {
@@ -70,5 +86,19 @@ public class LigaTable {
 				return ts;
 		}
 		return null;
+	}
+
+	public int getMatchDayAfter(Date date) {
+		int d=0;
+		LOG.debug("searching for matchday after"+date);
+		for(GameDay gd:this.gameDays) {
+			if(gd.getStartDate().after(date))
+			{
+				d=gd.gameDay;
+				LOG.debug("found. gd="+d);
+				break;
+			}
+		}
+		return d;
 	}
 }

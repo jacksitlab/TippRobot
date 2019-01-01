@@ -1,65 +1,55 @@
 package de.jacksitlab.tipprobot;
 
-import de.jacksitlab.tipprobot.data.GameDay;
-import de.jacksitlab.tipprobot.data.GameDayCollection;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+
 import de.jacksitlab.tipprobot.data.LigaTable;
 import de.jacksitlab.tipprobot.data.Match;
 import de.jacksitlab.tipprobot.data.MatchCollection;
 import de.jacksitlab.tipprobot.data.MatchTipp;
 import de.jacksitlab.tipprobot.data.MatchTippCollection;
-import de.jacksitlab.tipprobot.data.Team;
 import de.jacksitlab.tipprobot.data.TeamCollection;
-import de.jacksitlab.tipprobot.data.TeamStats;
-import de.jacksitlab.tipprobot.database.DataRow;
-import de.jacksitlab.tipprobot.database.DataTable;
-import de.jacksitlab.tipprobot.database.Database;
 import de.jacksitlab.tipprobot.database.DatabaseConfig;
 import de.jacksitlab.tipprobot.database.MeineLigaDatabase;
+import de.jacksitlab.tipprobot.tippalg.TippAlgorithm;
+import de.jacksitlab.tipprobot.tippalg.TippAlgorithmFactory;
 
 public class TippRobot {
 
+	private static final Logger LOG = Logger.getLogger(TippRobot.class.getName());
+	
 	private final int ligaId;
-	private GameDayCollection ligaMatches;
 	private LigaTable ligaTable;
 	private TeamCollection teams;
-
-	public TippRobot(int ligaId) {
+	private TippAlgorithm tippAlg;
+	private int tippAlgId;
+	
+	
+	public TippRobot(int ligaId,int algId) {
 		this.ligaId = ligaId;
+		this.tippAlgId = algId;
 	}
 
 	public void load(DatabaseConfig dbConfig)
 	{
 		this.loadTeams(dbConfig);
-		this.ligaTable = new LigaTable(this.ligaId, this.teams);
 		this.loadLigaGames(dbConfig);
+		this.tippAlg = TippAlgorithmFactory.getInstance(this.tippAlgId,this.ligaTable);
 	}
 	private void loadTeams(DatabaseConfig dbConfig)
 	{
+		LOG.debug("loading teams...");
 		MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
 		this.teams = db.loadTeams(this.ligaId);
+		LOG.debug(this.teams==null?"failed":("succeeded with "+this.teams.size()+" entries"));
 	}
 	private void loadLigaGames(DatabaseConfig dbConfig) {
 		
-		final int ROWIDX_GAMEDAY = 0;
-		String query  = "";
-		Database db = new Database(dbConfig);
-		DataTable dt = db.getTable(query);
-		int gd = 0;
-		Team homeTeam,guestTeam;
-		Match match;
-		GameDay gameDay;
-		this.ligaMatches = new GameDayCollection();
-		for(DataRow row:dt.getRows())
-		{ 
-			gd = Integer.parseInt(row.get(ROWIDX_GAMEDAY));
-			if(this.ligaMatches.contains(gd))
-			{
-				gameDay = new GameDay(gd);
-				this.ligaMatches.add(gameDay);
-			}
-			else
-				gameDay = this.ligaMatches.getByGameDay(gd);
-		}
+		LOG.debug("loading matches...");
+		MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
+		this.ligaTable = db.loadLigaMatches(this.ligaId, this.teams);
+		LOG.debug(this.ligaTable==null?"failed":("succeeded with "+this.ligaTable.getMatches().size()+" entries"));
 	}
 
 	public MatchTippCollection getTipps() {
@@ -67,11 +57,11 @@ public class TippRobot {
 	}
 	private int getnextGamesDay() {
 		
-		return 0;
+		return this.ligaTable.getMatchDayAfter(new Date());
 	}
 
 	public MatchTippCollection getTipps(int gameday) {
-		MatchCollection gameDayMatches = this.ligaMatches.getGames(gameday);
+		MatchCollection gameDayMatches = this.ligaTable.getMatches().getGames(gameday);
 		if(gameDayMatches==null)
 			return null;
 		MatchTippCollection gameDayTipps=new MatchTippCollection();
@@ -82,16 +72,7 @@ public class TippRobot {
 		return gameDayTipps;
 	}
 	private MatchTipp getTipp(int gameday,Match match) {
-		MatchCollection homeTeamMatches = this.ligaMatches.getLastGames(gameday,match.homeTeam);
-		MatchCollection guestTeamMatches = this.ligaMatches.getLastGames(gameday,match.guestTeam);
-		int tablePosHomeTeam = this.ligaTable.getPosition(match.homeTeam);
-		int tablePosGuestTeam = this.ligaTable.getPosition(match.guestTeam);
-		
-		TeamStats homeTeamStats = homeTeamMatches.getStatistics(match.homeTeam);
-		TeamStats guestTeamStats = guestTeamMatches.getStatistics(match.guestTeam);
-		
-		
-		return null;
+		return this.tippAlg.getTipp( match);
 	}
 
 	public void pushTipps(DatabaseConfig dbConfig, MatchTippCollection tipps) {

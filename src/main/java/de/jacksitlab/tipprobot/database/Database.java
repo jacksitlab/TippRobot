@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 public class Database {
 
+	private static final Logger LOG = Logger.getLogger(Database.class.getName());
 	private final DatabaseConfig config;
 	private Connection connection;
 	
@@ -20,7 +23,7 @@ public class Database {
 			try {
 				connection=DriverManager.getConnection("jdbc:mysql://"+this.config.getHost()+":"+this.config.getPort()+"/"+this.config.getDbName(), this.config.getDbUser(), this.config.getDbPassword());
 			} catch (SQLException e) {
-				
+				LOG.warn("problem on connect: "+e.getMessage());
 			}
 		
 		return this.connection!=null;
@@ -32,7 +35,7 @@ public class Database {
 			try {
 				this.connection.close();
 			} catch (SQLException e) {
-			
+				LOG.warn("problem on disconnect: " +e.getMessage());
 			}
 			this.connection=null;
 		}
@@ -56,8 +59,7 @@ public class Database {
 					dt.addRow(row);
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.warn(e.getMessage());
 			}  
 			
 			this.disconnect();

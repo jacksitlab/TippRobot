@@ -49,10 +49,10 @@ public class TeamStats {
 	}
 
 	public int getGoalsMean() {
-		return Math.round(this.goals/this.games);
+		return this.games<=0?0:Math.round(this.goals/this.games);
 	}
 	public int getGoalsAgainstMean() {
-		return Math.round(this.goalsAgainst/this.games);
+		return this.games<=0?0:Math.round(this.goalsAgainst/this.games);
 	}
 
 }

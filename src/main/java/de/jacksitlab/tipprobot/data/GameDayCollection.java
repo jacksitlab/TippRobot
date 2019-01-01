@@ -38,4 +38,10 @@ public class GameDayCollection extends ArrayList<GameDay> {
 		return null;
 	}
 
+	public void addMatch(int gameDay, Match m) {
+		GameDay x=this.getByGameDay(gameDay);
+		if(x!=null)
+			x.addMatch(m);
+	}
+
 }

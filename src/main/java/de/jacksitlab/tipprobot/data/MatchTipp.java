@@ -2,6 +2,10 @@ package de.jacksitlab.tipprobot.data;
 
 public class MatchTipp{
 
+	@Override
+	public String toString() {
+		return "MatchTipp [gameInfos=" + gameInfos + ", tippInfos=" + tippInfos + "]";
+	}
 	public final Match gameInfos;
 	public Tipp tippInfos;
 	
