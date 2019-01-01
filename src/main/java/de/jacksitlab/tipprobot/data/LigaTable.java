@@ -39,6 +39,8 @@ public class LigaTable {
 		if (m.hasResult()) {
 			shome.incGames();
 			sguest.incGames();
+			shome.addGoals(m.getResult().getHomePoints(),m.getResult().getGuestPoints());
+			sguest.addGoals(m.getResult().getGuestPoints(),m.getResult().getHomePoints());
 			if (m.getResult().homeTeamHasWon()) {
 				shome.incWins();
 				sguest.incLooses();
