@@ -29,29 +29,55 @@ public class Program {
 
 		int ligaId = 16;
 
-		init_log(Level.DEBUG);
-		LOG.debug("starting...");
 		DatabaseConfig dbConfig = null;
-		try {
-			dbConfig = DatabaseConfig.getInstance();
-		} catch (JSONException e) {
-			error(e);
-		} catch (IOException e) {
-			error(e);
+		String dbFilename = null;
+		int tippAlgId = TippAlgorithmFactory.ID_LIGABASED;
+		boolean run = true;
+		String logLevel = "DEBUG";
+		if (args != null && args.length > 0) {
+			for (int i = 0; i < args.length; i++) {
+				if (args[i].equals("--db")) {
+					dbFilename = args[i + 1];
+					i++;
+				} else if (args[i].equals("--alg")) {
+					int x = Integer.parseInt(args[i + 1]);
+					if (TippAlgorithmFactory.validate(x))
+						tippAlgId = x;
+					i++;
+				} else if (args[i].equals("--alglist")) {
+					System.out.println(TippAlgorithmFactory.getAlgorithmList());
+					run = false;
+				} else if (args[i].equals("--log")) {
+					logLevel = args[i + 1];
+					i++;
+				}
+			}
 		}
-		MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
-		db.loadTeamsById(new String[] {"279"});
-		HashMap<Integer, String> ligas = db.loadLigas();
-		LOG.debug(ligas);
-		if (ligas.containsKey(ligaId)) {
-			LOG.debug("found requested ligaid "+ ligaId+" :"+ligas.get(ligaId));
-			TippRobot robot = new TippRobot(ligaId, TippAlgorithmFactory.ID_LIGABASED);
-			robot.load(dbConfig);
-			MatchTippCollection tipps = robot.getTipps();
-			robot.pushTipps(dbConfig, tipps);
-			System.out.println(String.valueOf(tipps));
-		} else {
-			LOG.warn("ligaid " + ligaId + " not found in db");
+		init_log(Level.toLevel(logLevel));
+		LOG.debug("starting...");
+
+		if (run) {
+			try {
+				dbConfig = dbFilename == null ? DatabaseConfig.getInstance() : DatabaseConfig.getInstance(dbFilename);
+			} catch (JSONException e) {
+				error(e);
+			} catch (IOException e) {
+				error(e);
+			}
+			MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
+			db.loadTeamsById(new String[] { "279" });
+			HashMap<Integer, String> ligas = db.loadLigas();
+			LOG.debug(ligas);
+			if (ligas.containsKey(ligaId)) {
+				LOG.debug("found requested ligaid " + ligaId + " :" + ligas.get(ligaId));
+				TippRobot robot = new TippRobot(ligaId, tippAlgId);
+				robot.load(dbConfig);
+				MatchTippCollection tipps = robot.getTipps();
+				robot.pushTipps(dbConfig, tipps);
+				System.out.println(String.valueOf(tipps));
+			} else {
+				LOG.warn("ligaid " + ligaId + " not found in db");
+			}
 		}
 		System.exit(0);
 

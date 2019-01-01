@@ -5,12 +5,11 @@ import de.jacksitlab.tipprobot.data.Match;
 import de.jacksitlab.tipprobot.data.MatchTipp;
 import de.jacksitlab.tipprobot.data.TeamStats;
 
-public class LigaTableBasedTippAlgorithm implements TippAlgorithm{
+public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm{
 
-	private final LigaTable table;
 	public LigaTableBasedTippAlgorithm(LigaTable lt)
 	{
-		this.table = lt;
+		super(lt);
 	}
 
 	public MatchTipp getTipp(Match m) {
