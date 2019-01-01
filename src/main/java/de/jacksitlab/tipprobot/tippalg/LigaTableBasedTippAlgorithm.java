@@ -38,7 +38,12 @@ public class LigaTableBasedTippAlgorithm implements TippAlgorithm{
 				guestPts = sGuest.getGoalsMean();
 			//fix guest points to loose
 			if(guestPts>=homePts)
-				guestPts=homePts-1;
+			{
+				if(homePts>0)
+					guestPts=homePts-1;
+				else
+					homePts=guestPts+1;
+			}
 		}
 		else		//guest team wins
 		{
@@ -48,7 +53,12 @@ public class LigaTableBasedTippAlgorithm implements TippAlgorithm{
 				guestPts = sGuest.getGoalsMean();
 			//fix home points to loose
 			if(homePts>=guestPts)
-				homePts = guestPts-1;
+			{
+				if(guestPts>0)
+					homePts = guestPts-1;
+				else
+					guestPts=homePts+1;
+			}
 		}
 			
 		return new MatchTipp(m, homePts, guestPts);
