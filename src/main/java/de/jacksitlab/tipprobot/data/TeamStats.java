@@ -39,20 +39,31 @@ public class TeamStats {
 	public int getPoints() {
 		return 3 * this.wins + this.draws;
 	}
-	public void addGoals(int goals,int goalsAgainst)
-	{
-		this.goals+=goals;
-		this.goalsAgainst+=goalsAgainst;
+
+	public void addGoals(int goals, int goalsAgainst) {
+		this.goals += goals;
+		this.goalsAgainst += goalsAgainst;
 	}
+
 	public int getId() {
 		return this.teamId;
 	}
 
 	public int getGoalsMean() {
-		return this.games<=0?0:Math.round(this.goals/this.games);
+		return this.games <= 0 ? 0 : Math.round(this.goals / this.games);
 	}
+
 	public int getGoalsAgainstMean() {
-		return this.games<=0?0:Math.round(this.goalsAgainst/this.games);
+		return this.games <= 0 ? 0 : Math.round(this.goalsAgainst / this.games);
+	}
+
+	public void clear() {
+		this.games = 0;
+		this.goals = 0;
+		this.goalsAgainst = 0;
+		this.wins = 0;
+		this.draws = 0;
+		this.looses = 0;
 	}
 
 }

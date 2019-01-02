@@ -30,4 +30,11 @@ public class TeamStatsCollection extends ArrayList<TeamStats>{
 		return null;
 	}
 
+	public void clearData() {
+		for(TeamStats s:this)
+		{
+			s.clear();
+		}
+	}
+
 }

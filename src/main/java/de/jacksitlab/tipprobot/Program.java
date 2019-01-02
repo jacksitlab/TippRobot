@@ -10,12 +10,15 @@ import org.apache.log4j.PatternLayout;
 import org.json.JSONException;
 
 import de.jacksitlab.tipprobot.data.MatchTippCollection;
+import de.jacksitlab.tipprobot.data.TippValidationResults;
 import de.jacksitlab.tipprobot.database.DatabaseConfig;
 import de.jacksitlab.tipprobot.database.MeineLigaDatabase;
 import de.jacksitlab.tipprobot.tippalg.TippAlgorithmFactory;
 
 public class Program {
 
+	private static final int PROGRAM_DEFAULT = 0;
+	private static final int PROGRAM_VALIDATE = 1;
 	private static Logger LOG;
 
 	private static void init_log(Level lvl) {
@@ -28,7 +31,7 @@ public class Program {
 	public static void main(String[] args) {
 
 		int ligaId = 16;
-
+		int program = PROGRAM_DEFAULT;
 		DatabaseConfig dbConfig = null;
 		String dbFilename = null;
 		int tippAlgId = TippAlgorithmFactory.ID_LIGABASED;
@@ -50,6 +53,8 @@ public class Program {
 				} else if (args[i].equals("--log")) {
 					logLevel = args[i + 1];
 					i++;
+				} else if (args[i].equals("--validate")) {
+					program = PROGRAM_VALIDATE;
 				}
 			}
 		}
@@ -72,9 +77,19 @@ public class Program {
 				LOG.debug("found requested ligaid " + ligaId + " :" + ligas.get(ligaId));
 				TippRobot robot = new TippRobot(ligaId, tippAlgId);
 				robot.load(dbConfig);
-				MatchTippCollection tipps = robot.getTipps();
-				robot.pushTipps(dbConfig, tipps);
-				System.out.println(String.valueOf(tipps));
+				switch (program) {
+				case PROGRAM_DEFAULT:
+					MatchTippCollection tipps = robot.getTipps();
+					robot.pushTipps(dbConfig, tipps);
+					out(String.valueOf(tipps));
+					break;
+				case PROGRAM_VALIDATE:
+					TippValidationResults r = robot.validate();
+					out(r.printResults());
+					break;
+				default:
+					break;
+				}
 			} else {
 				LOG.warn("ligaid " + ligaId + " not found in db");
 			}
@@ -83,6 +98,10 @@ public class Program {
 
 	}
 
+	private static void out(String msg)
+	{
+		System.out.println(msg);
+	}
 	private static void error(Exception e) {
 		LOG.error(e.getMessage());
 		System.exit(1);

@@ -43,5 +43,18 @@ public class GameDay {
 		}
 		return d;
 	}
+
+	public boolean hasResults() {
+		boolean f=true;
+		for(Match m:this.matches)
+		{
+			if(!m.hasResult())
+			{
+				f=false;
+				break;
+			}
+		}
+		return f;
+	}
 	
 }
