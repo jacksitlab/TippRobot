@@ -15,5 +15,13 @@ public class Tipp {
 	{
 		this.gameId = id;
 	}
+
+	public boolean homeTeamWins() {
+		return this.goalsHome>this.goalsGuest;
+	}
+
+	public boolean guestTeamWins() {
+		return this.goalsGuest>this.goalsHome;
+	}
 	
 }

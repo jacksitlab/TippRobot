@@ -15,6 +15,8 @@ public class TippAlgorithmFactory {
 	
 	public static final int ID_LIGABASED = 1;
 	public static final int ID_TRENDBASED = 2;
+	public static final int ID_TRENDANDLIGABASED = 3;
+	
 	private static HashMap<Integer, Class> algs;
 	private static void init()
 	{
@@ -23,6 +25,7 @@ public class TippAlgorithmFactory {
 			algs=new HashMap<Integer,Class>();
 			algs.put(ID_LIGABASED,LigaTableBasedTippAlgorithm.class);
 			algs.put(ID_TRENDBASED, TrendBasedTippAlgorithm.class);
+			algs.put(ID_TRENDANDLIGABASED,TrendAndLigaTableBasedTippAlgorithm.class);
 		}
 		
 	}

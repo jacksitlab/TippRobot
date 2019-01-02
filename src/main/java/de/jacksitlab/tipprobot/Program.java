@@ -10,6 +10,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.apache.log4j.varia.NullAppender;
 import org.json.JSONException;
 
 import de.jacksitlab.tipprobot.data.MatchTippCollection;
@@ -25,10 +26,10 @@ public class Program {
 	private static Logger LOG;
 	private static String outputFilename = null;
 
-	private static void init_log(Level lvl) {
+	private static void init_log(Level lvl, boolean silentMode) {
 		Logger l = Logger.getRootLogger();
 		l.setLevel(lvl);
-		l.addAppender(new ConsoleAppender(new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN)));
+		l.addAppender(silentMode?new NullAppender():new ConsoleAppender(new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN)));
 		LOG = Logger.getLogger(Program.class.getName());
 	}
 
@@ -40,6 +41,7 @@ public class Program {
 		String dbFilename = null;
 		int tippAlgId = TippAlgorithmFactory.ID_LIGABASED;
 		boolean run = true;
+		boolean silentMode=false;
 		String logLevel = "DEBUG";
 		if (args != null && args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
@@ -62,10 +64,11 @@ public class Program {
 				} else if (args[i].equals("--outfile")) {
 					outputFilename = args[i + 1];
 					i++;
-				}
+				}else if (args[i].equals("--silent"))
+					silentMode=true;
 			}
 		}
-		init_log(Level.toLevel(logLevel));
+		init_log(Level.toLevel(logLevel),silentMode);
 		LOG.debug("starting...");
 
 		if (run) {
