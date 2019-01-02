@@ -40,10 +40,11 @@ public class GameDayCollection extends ArrayList<GameDay> {
 	 */
 	public MatchCollection getLastMatchesBefore(int gameday, Team team, int limit) {
 		MatchCollection c=new MatchCollection();
-		while(gameday-->0 && limit-- >=0)
+		while(--gameday>0 && --limit >=0)
 		{
 			GameDay gd = this.getByGameDay(gameday);
-			c.add(gd.getMatch(team));
+			if(gd!=null)
+				c.add(gd.getMatch(team));
 		}
 		return c;
 	}

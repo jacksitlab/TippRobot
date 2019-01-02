@@ -29,8 +29,6 @@ public abstract class BaseTippAlgorithm implements TippAlgorithm {
 		return r;
 	}
 
-	public abstract TippValidationResult validate(int gameday);
-
 	public MatchTippCollection getTipps(int gameday, MatchCollection matches) {
 		MatchTippCollection c = new MatchTippCollection();
 		for (Match m : matches)

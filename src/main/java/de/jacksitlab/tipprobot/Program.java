@@ -1,5 +1,8 @@
 package de.jacksitlab.tipprobot;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -20,6 +23,7 @@ public class Program {
 	private static final int PROGRAM_DEFAULT = 0;
 	private static final int PROGRAM_VALIDATE = 1;
 	private static Logger LOG;
+	private static String outputFilename = null;
 
 	private static void init_log(Level lvl) {
 		Logger l = Logger.getRootLogger();
@@ -55,6 +59,9 @@ public class Program {
 					i++;
 				} else if (args[i].equals("--validate")) {
 					program = PROGRAM_VALIDATE;
+				} else if (args[i].equals("--outfile")) {
+					outputFilename = args[i + 1];
+					i++;
 				}
 			}
 		}
@@ -98,10 +105,21 @@ public class Program {
 
 	}
 
-	private static void out(String msg)
-	{
-		System.out.println(msg);
+	private static void out(String msg) {
+		if (outputFilename == null)
+			System.out.println(msg);
+		else {
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(new File(outputFilename)));
+				bw.write(msg);
+				bw.flush();
+				bw.close();
+			} catch (IOException e) {
+				LOG.warn(e.getMessage());
+			}
+		}
 	}
+
 	private static void error(Exception e) {
 		LOG.error(e.getMessage());
 		System.exit(1);

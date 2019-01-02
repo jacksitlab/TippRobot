@@ -89,4 +89,8 @@ public class TeamStats {
 		}
 	}
 
+	public float getPointsMean() {
+		return this.games==0?0:((float)this.getPoints()/(float)this.games);
+	}
+
 }

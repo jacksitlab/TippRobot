@@ -88,6 +88,12 @@ public class TippRobot {
 		return this.tippAlg.validate();
 	}
 
+	public TippValidationResults validate(int gd) {
+		TippValidationResults c=new TippValidationResults();
+		c.add(this.tippAlg.validate(gd));
+		return c;
+	}
+
 	
 	
 

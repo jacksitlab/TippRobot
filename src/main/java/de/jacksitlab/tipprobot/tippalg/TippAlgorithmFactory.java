@@ -14,6 +14,7 @@ public class TippAlgorithmFactory {
 	private static final Logger LOG = Logger.getLogger(TippAlgorithmFactory.class.getName());
 	
 	public static final int ID_LIGABASED = 1;
+	public static final int ID_TRENDBASED = 2;
 	private static HashMap<Integer, Class> algs;
 	private static void init()
 	{
@@ -21,6 +22,7 @@ public class TippAlgorithmFactory {
 		{
 			algs=new HashMap<Integer,Class>();
 			algs.put(ID_LIGABASED,LigaTableBasedTippAlgorithm.class);
+			algs.put(ID_TRENDBASED, TrendBasedTippAlgorithm.class);
 		}
 		
 	}
