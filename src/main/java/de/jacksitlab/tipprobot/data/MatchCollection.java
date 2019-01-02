@@ -11,9 +11,12 @@ public class MatchCollection extends ArrayList<Match>{
 	 */
 	private static final long serialVersionUID = 8416770520216992057L;
 
-	public TeamStats getStatistics(Team homeTeam) {
-		// TODO Auto-generated method stub
-		return null;
+	public TeamStats getStatistics(Team team) {
+		TeamStats stats  = new TeamStats(team.getId());
+		for(Match match: this) {
+			stats.addMatch(match);
+		}
+		return stats;
 	}
 
 }

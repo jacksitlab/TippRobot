@@ -105,25 +105,6 @@ public class LigaTable {
 	}
 
 	private static void addMatchToStats(TeamStatsCollection c, Match match) {
-		TeamStats shome = c.getById(match.homeTeam.getId());
-		TeamStats sguest = c.getById(match.guestTeam.getId());
-		if (match.hasResult()) {
-			shome.incGames();
-			sguest.incGames();
-			shome.addGoals(match.getResult().getHomePoints(), match.getResult().getGuestPoints());
-			sguest.addGoals(match.getResult().getGuestPoints(), match.getResult().getHomePoints());
-			if (match.getResult().homeTeamHasWon()) {
-				shome.incWins();
-				sguest.incLooses();
-			}
-			if (match.getResult().isADraw()) {
-				shome.incDraws();
-				sguest.incDraws();
-			}
-			if (match.getResult().guestTeamHasWon()) {
-				shome.incLooses();
-				sguest.incWins();
-			}
-		}	
+		c.addMatch(match);	
 	}
 }

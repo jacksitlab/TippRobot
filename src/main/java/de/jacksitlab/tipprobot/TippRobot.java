@@ -76,7 +76,7 @@ public class TippRobot {
 		return gameDayTipps;
 	}
 	private MatchTipp getTipp(int gameday,Match match) {
-		return this.tippAlg.getTipp( match);
+		return this.tippAlg.getTipp(gameday, match);
 	}
 
 	public void pushTipps(DatabaseConfig dbConfig, MatchTippCollection tipps) {

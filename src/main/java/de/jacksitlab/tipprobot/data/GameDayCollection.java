@@ -31,10 +31,21 @@ public class GameDayCollection extends ArrayList<GameDay> {
 		}
 		return null;
 	}
-
-	public MatchCollection getLastGames(int gameday, Team homeTeam) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * get <limit> matches before gameday
+	 * @param gameday
+	 * @param homeTeam
+	 * @param limit
+	 * @return
+	 */
+	public MatchCollection getLastMatchesBefore(int gameday, Team team, int limit) {
+		MatchCollection c=new MatchCollection();
+		while(gameday-->0 && limit-- >=0)
+		{
+			GameDay gd = this.getByGameDay(gameday);
+			c.add(gd.getMatch(team));
+		}
+		return c;
 	}
 
 	public GameDay getByGameDay(int gd) {

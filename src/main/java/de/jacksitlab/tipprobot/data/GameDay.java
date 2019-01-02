@@ -56,5 +56,14 @@ public class GameDay {
 		}
 		return f;
 	}
+
+	public Match getMatch(Team team) {
+		for(Match m:this.matches)
+		{
+			if(m.homeTeam.equals(team) || m.guestTeam.equals(team))
+				return m;
+		}
+		return null;
+	}
 	
 }

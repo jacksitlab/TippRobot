@@ -66,4 +66,27 @@ public class TeamStats {
 		this.looses = 0;
 	}
 
+	public void addMatch(Match match) {
+
+		if (match.hasResult()) {
+			this.incGames();
+			if (match.homeTeam.getId() == this.teamId) {
+				this.addGoals(match.getResult().getHomePoints(), match.getResult().getGuestPoints());
+				if (match.getResult().homeTeamHasWon())
+					this.incWins();
+				else
+					this.incLooses();
+			} else {
+				this.addGoals(match.getResult().getGuestPoints(), match.getResult().getHomePoints());
+				if (match.getResult().homeTeamHasWon())
+					this.incLooses();
+				else
+					this.incWins();
+			}
+			if (match.getResult().isADraw())
+				this.incDraws();
+
+		}
+	}
+
 }

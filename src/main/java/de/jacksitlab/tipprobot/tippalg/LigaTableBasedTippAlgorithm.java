@@ -9,14 +9,14 @@ import de.jacksitlab.tipprobot.data.TippValidationResult;
 
 public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 
-	private static final int DIFF_FOR_DRAW = 5;
+	private static final int DIFF_FOR_DRAW = 4;
 	public LigaTableBasedTippAlgorithm(LigaTable lt) {
 		super(lt);
 	}
-	public MatchTipp getTipp(Match m) {
-		return getTipp(m,this.table);
+	public MatchTipp getTipp(int gameDay, Match m) {
+		return getTipp(gameDay, m, this.table);
 	}
-	public static MatchTipp getTipp(Match m,LigaTable table) {
+	public static MatchTipp getTipp(int gameDay, Match m,LigaTable table) {
 
 		int homePts = 0;
 		int guestPts = 0;
@@ -72,7 +72,7 @@ public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 			LigaTable table = this.table.getTableAfterGameDay(gameDay.gameDay - 1);
 			for(Match match:gameDay.getMatches())
 			{
-				result.add(getTipp(match,table));
+				result.add(getTipp(gameDay.gameDay,match,table));
 			}
 		}
 		return result;

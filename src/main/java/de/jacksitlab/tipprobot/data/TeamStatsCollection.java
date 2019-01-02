@@ -37,4 +37,9 @@ public class TeamStatsCollection extends ArrayList<TeamStats>{
 		}
 	}
 
+	public void addMatch(Match match) {
+		this.getById(match.homeTeam.getId()).addMatch(match);
+		this.getById(match.guestTeam.getId()).addMatch(match);	
+	}
+
 }

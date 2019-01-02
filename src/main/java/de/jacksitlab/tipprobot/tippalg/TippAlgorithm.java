@@ -6,7 +6,7 @@ import de.jacksitlab.tipprobot.data.TippValidationResults;
 
 public interface TippAlgorithm {
 
-	public MatchTipp getTipp(Match m);
+	public MatchTipp getTipp(int gameDay, Match m);
 
 	public TippValidationResults validate();
 }

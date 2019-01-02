@@ -31,10 +31,10 @@ public abstract class BaseTippAlgorithm implements TippAlgorithm {
 
 	public abstract TippValidationResult validate(int gameday);
 
-	public MatchTippCollection getTipps(MatchCollection matches) {
+	public MatchTippCollection getTipps(int gameday, MatchCollection matches) {
 		MatchTippCollection c = new MatchTippCollection();
 		for (Match m : matches)
-			c.add(this.getTipp(m));
+			c.add(this.getTipp(gameday,m));
 		return c;
 	}
 }
