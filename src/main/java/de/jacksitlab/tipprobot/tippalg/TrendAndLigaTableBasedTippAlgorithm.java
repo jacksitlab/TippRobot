@@ -1,7 +1,5 @@
 package de.jacksitlab.tipprobot.tippalg;
 
-import java.awt.peer.LightweightPeer;
-
 import de.jacksitlab.tipprobot.data.GameDay;
 import de.jacksitlab.tipprobot.data.LigaTable;
 import de.jacksitlab.tipprobot.data.Match;
@@ -12,7 +10,7 @@ public class TrendAndLigaTableBasedTippAlgorithm extends BaseTippAlgorithm{
 
 	private final LigaTableBasedTippAlgorithm alg1;
 	private final TrendBasedTippAlgorithm alg2;
-	private static final float scaleAlg1=0.7f;
+	private static final float scaleAlg1=0.5f;
 	private static final float scaleAlg2 = 1.0f-scaleAlg1;
 	
 	public TrendAndLigaTableBasedTippAlgorithm(LigaTable lt) {

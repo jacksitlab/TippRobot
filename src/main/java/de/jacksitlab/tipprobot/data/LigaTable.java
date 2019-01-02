@@ -18,7 +18,14 @@ public class LigaTable {
 	public GameDayCollection getGameDays() {
 		return this.gameDays;
 	}
-
+	public TeamStatsCollection getTableStatistics() {
+		if (this.recalcFlag) {
+			teamStats.sort(PointsComparator.getInstance());
+			this.recalcFlag = false;
+		}
+		return this.teamStats;
+	}
+	
 	public LigaTable(int id, TeamCollection tc) {
 		this.id = id;
 		this.teams = tc;
@@ -59,9 +66,9 @@ public class LigaTable {
 		}
 
 		public int compare(TeamStats arg0, TeamStats arg1) {
-			if (arg0.getPoints() > arg1.getPoints())
-				return 1;
 			if (arg0.getPoints() < arg1.getPoints())
+				return 1;
+			if (arg0.getPoints() > arg1.getPoints())
 				return -1;
 			return 0;
 		}

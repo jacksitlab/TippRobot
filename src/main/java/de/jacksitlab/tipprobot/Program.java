@@ -23,6 +23,7 @@ public class Program {
 
 	private static final int PROGRAM_DEFAULT = 0;
 	private static final int PROGRAM_VALIDATE = 1;
+	private static final int PROGRAM_PRINTTABLE = 2;
 	private static Logger LOG;
 	private static String outputFilename = null;
 
@@ -61,7 +62,10 @@ public class Program {
 					i++;
 				} else if (args[i].equals("--validate")) {
 					program = PROGRAM_VALIDATE;
-				} else if (args[i].equals("--outfile")) {
+				} else if (args[i].equals("--print-table")) {
+					program = PROGRAM_PRINTTABLE;
+				}
+				else if (args[i].equals("--outfile")) {
 					outputFilename = args[i + 1];
 					i++;
 				}else if (args[i].equals("--silent"))
@@ -96,6 +100,9 @@ public class Program {
 				case PROGRAM_VALIDATE:
 					TippValidationResults r = robot.validate();
 					out(r.printResults());
+					break;
+				case PROGRAM_PRINTTABLE:
+					out(robot.printTable());
 					break;
 				default:
 					break;

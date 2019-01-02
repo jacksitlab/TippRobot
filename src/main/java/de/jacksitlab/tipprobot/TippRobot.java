@@ -4,15 +4,13 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-import de.jacksitlab.tipprobot.data.GameDay;
 import de.jacksitlab.tipprobot.data.LigaTable;
 import de.jacksitlab.tipprobot.data.Match;
 import de.jacksitlab.tipprobot.data.MatchCollection;
 import de.jacksitlab.tipprobot.data.MatchTipp;
 import de.jacksitlab.tipprobot.data.MatchTippCollection;
 import de.jacksitlab.tipprobot.data.TeamCollection;
-import de.jacksitlab.tipprobot.data.TeamStatsCollection;
-import de.jacksitlab.tipprobot.data.TippValidationResult;
+import de.jacksitlab.tipprobot.data.TeamStats;
 import de.jacksitlab.tipprobot.data.TippValidationResults;
 import de.jacksitlab.tipprobot.database.DatabaseConfig;
 import de.jacksitlab.tipprobot.database.MeineLigaDatabase;
@@ -92,6 +90,16 @@ public class TippRobot {
 		TippValidationResults c=new TippValidationResults();
 		c.add(this.tippAlg.validate(gd));
 		return c;
+	}
+
+	public String printTable() {
+		StringBuilder sb = new StringBuilder();
+		int i=1;
+		for(TeamStats ts:this.ligaTable.getTableStatistics())
+		{
+			sb.append(String.format("%02d %s %d\n",i++,teams.getById(ts.getId()).getTitle(),ts.getPoints()));
+		}
+		return sb.toString();
 	}
 
 	

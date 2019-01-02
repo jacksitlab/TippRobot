@@ -39,7 +39,9 @@ public class TeamStats {
 	public int getPoints() {
 		return 3 * this.wins + this.draws;
 	}
-
+	public int getLooses() {
+		return this.looses;
+	}
 	public void addGoals(int goals, int goalsAgainst) {
 		this.goals += goals;
 		this.goalsAgainst += goalsAgainst;

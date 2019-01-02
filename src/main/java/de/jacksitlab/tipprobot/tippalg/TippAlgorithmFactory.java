@@ -17,7 +17,9 @@ public class TippAlgorithmFactory {
 	public static final int ID_TRENDBASED = 2;
 	public static final int ID_TRENDANDLIGABASED = 3;
 	
+	@SuppressWarnings("rawtypes")
 	private static HashMap<Integer, Class> algs;
+	@SuppressWarnings("rawtypes")
 	private static void init()
 	{
 		if(algs==null)
@@ -54,6 +56,7 @@ public class TippAlgorithmFactory {
 		return false;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static String getAlgorithmList() {
 		init();
 		List<String> list = new ArrayList<String>();
