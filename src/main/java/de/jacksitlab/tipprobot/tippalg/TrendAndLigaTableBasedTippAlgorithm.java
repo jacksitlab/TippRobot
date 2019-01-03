@@ -10,9 +10,12 @@ public class TrendAndLigaTableBasedTippAlgorithm extends BaseTippAlgorithm{
 
 	private final LigaTableBasedTippAlgorithm alg1;
 	private final TrendBasedTippAlgorithm alg2;
-	private static final float scaleAlg1=0.5f;
-	private static final float scaleAlg2 = 1.0f-scaleAlg1;
-	
+	private static float scaleAlg1=0.5f;
+	private static float scaleAlg2 = 1.0f-scaleAlg1;
+	public static void setFactor(float weightfac) {
+		scaleAlg1=weightfac;
+		scaleAlg2=1-scaleAlg1;
+	}
 	public TrendAndLigaTableBasedTippAlgorithm(LigaTable lt) {
 		super(lt);
 		alg1 = new LigaTableBasedTippAlgorithm(lt);
@@ -71,5 +74,7 @@ public class TrendAndLigaTableBasedTippAlgorithm extends BaseTippAlgorithm{
 		}
 		return result;
 	}
+
+	
 
 }

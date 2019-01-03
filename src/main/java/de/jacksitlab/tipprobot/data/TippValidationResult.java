@@ -49,4 +49,8 @@ public class TippValidationResult {
 		return pts;
 	}
 
+	public int getMaxPoints() {
+		return 3*this.matchTipps.size();
+	}
+
 }

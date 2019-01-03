@@ -20,4 +20,18 @@ public class TippValidationResults extends ArrayList<TippValidationResult>{
 		sb.append("resulting points: "+pts);
 		return sb.toString();
 	}
+
+	public int getPoints() {
+		int pts=0;
+		for(TippValidationResult r:this)
+			pts+=r.getPoints();
+		return pts;
+	}
+
+	public int getMaxPoints() {
+		int pts=0;
+		for(TippValidationResult r:this)
+			pts+=r.getMaxPoints();
+		return pts;
+	}
 }

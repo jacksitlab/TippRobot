@@ -15,7 +15,11 @@ public class TrendBasedTippAlgorithm extends BaseTippAlgorithm{
 	private static final Logger LOG = Logger.getLogger(TrendBasedTippAlgorithm.class.getName());
 
 	private static final int LIMIT_LASTGAMES = 5;
-	private static final float MEANDIFF_TO_WIN = 1.5f;
+	private static float MEANDIFF_TO_WIN = 1.2f;
+	public static void setMeanDiffToWin(float f)
+	{
+		MEANDIFF_TO_WIN = f;
+	}
 	public TrendBasedTippAlgorithm(LigaTable lt) {
 		super(lt);
 	}

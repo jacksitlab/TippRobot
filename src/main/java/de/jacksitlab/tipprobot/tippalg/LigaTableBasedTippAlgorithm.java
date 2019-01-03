@@ -9,7 +9,10 @@ import de.jacksitlab.tipprobot.data.TippValidationResult;
 
 public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 
-	private static final int DIFF_FOR_DRAW = 4;
+	private static int DIFF_FOR_DRAW = 4;
+	public static void setDiffForDraw(int diffordraw) {
+		DIFF_FOR_DRAW=diffordraw;
+	}
 	public LigaTableBasedTippAlgorithm(LigaTable lt) {
 		super(lt);
 	}
@@ -78,4 +81,5 @@ public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 		return result;
 
 	}
+	
 }
