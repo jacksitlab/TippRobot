@@ -76,13 +76,13 @@ public class TeamStats {
 				this.addGoals(match.getResult().getHomePoints(), match.getResult().getGuestPoints());
 				if (match.getResult().homeTeamHasWon())
 					this.incWins();
-				else
+				else if(match.getResult().guestTeamHasWon())
 					this.incLooses();
 			} else {
 				this.addGoals(match.getResult().getGuestPoints(), match.getResult().getHomePoints());
 				if (match.getResult().homeTeamHasWon())
 					this.incLooses();
-				else
+				else if(match.getResult().guestTeamHasWon())
 					this.incWins();
 			}
 			if (match.getResult().isADraw())
