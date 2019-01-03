@@ -12,8 +12,12 @@ public class MatchTipp{
 	
 	public MatchTipp(Match g, int homePts, int guestPts)
 	{
-		this.gameInfos = g;
+		this(g, homePts, guestPts, null);
+	}
+	public MatchTipp(Match match, int homePts, int guestPts, MatchScore matchScore) {
+		this.gameInfos = match;
 		this.setTipp(homePts, guestPts);
+		this.score = matchScore;
 	}
 	public void setScore(MatchScore s) {
 		this.score=s;
@@ -34,16 +38,28 @@ public class MatchTipp{
 	 */
 	public int getPoints() {
 		int pts = 0;
-		if(this.tippInfos.goalsHome==this.gameInfos.getResult().getHomePoints() &&
-				this.tippInfos.goalsGuest==this.gameInfos.getResult().getGuestPoints())
+		if(this.isCorrect())
 			pts=3;
 		else {
-			int diffg = this.gameInfos.getResult().getHomePoints()-this.gameInfos.getResult().getGuestPoints();
-			int difft = this.tippInfos.goalsHome-this.tippInfos.goalsGuest;
-			if((diffg== 0 && difft==0) || (diffg*difft>0))
+			if(this.isDirection())
 				pts=1;
 		}
 			
 		return pts;
+	}
+	public MatchScore getScore() {
+		return this.score;
+	}
+	public boolean isDirection() {
+		int diffg = this.gameInfos.getResult().getHomePoints()-this.gameInfos.getResult().getGuestPoints();
+		int difft = this.tippInfos.goalsHome-this.tippInfos.goalsGuest;
+		return ((diffg== 0 && difft==0) || (diffg*difft>0));
+		
+	}
+	
+	public boolean isCorrect() {
+		return (this.tippInfos.goalsHome==this.gameInfos.getResult().getHomePoints() &&
+				this.tippInfos.goalsGuest==this.gameInfos.getResult().getGuestPoints());
+		
 	}
 }

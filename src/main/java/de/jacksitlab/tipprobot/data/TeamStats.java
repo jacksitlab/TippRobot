@@ -95,4 +95,12 @@ public class TeamStats {
 		return this.games==0?0:((float)this.getPoints()/(float)this.games);
 	}
 
+	public int getGoalDiff() {
+		return this.goals-this.goalsAgainst;
+	}
+
+	public int getGoals() {
+		return this.goals;
+	}
+
 }

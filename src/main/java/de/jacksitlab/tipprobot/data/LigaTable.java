@@ -66,10 +66,32 @@ public class LigaTable {
 		}
 
 		public int compare(TeamStats arg0, TeamStats arg1) {
+			//compare points
 			if (arg0.getPoints() < arg1.getPoints())
 				return 1;
-			if (arg0.getPoints() > arg1.getPoints())
+			else if (arg0.getPoints() > arg1.getPoints())
 				return -1;
+			else
+			{
+				//compare goal difference
+				if(arg0.getGoalDiff()<arg1.getGoalDiff())
+					return 1;
+				else if(arg0.getGoalDiff()>arg1.getGoalDiff())
+					return -1;
+				else
+				{
+					//compare goals
+					if(arg0.getGoals()<arg1.getGoals())
+						return 1;
+					else if(arg0.getGoals()>arg1.getGoals())
+						return -1;
+					else
+					{
+						//compare direct match
+						LOG.warn("not handled comparison");
+					}
+				}
+			}
 			return 0;
 		}
 	}

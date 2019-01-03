@@ -26,20 +26,38 @@ public class TippValidationResult {
 		sb.append("================================"+LR);
 		for(MatchTipp mt: this.matchTipps)
 		{
-			sb.append(String.format("%s %d - %d %s | %d : %d", mt.gameInfos.homeTeam.getTitle(),
+			sb.append(String.format("%s %d - %d %s | %d : %d (%f)", mt.gameInfos.homeTeam.getTitle(),
 					mt.gameInfos.getResult().getHomePoints(),
 					mt.gameInfos.getResult().getGuestPoints(),
 					mt.gameInfos.guestTeam.getTitle(),
 					mt.tippInfos.goalsHome,
-					mt.tippInfos.goalsGuest	));
+					mt.tippInfos.goalsGuest,mt.getScore().getValue()));
 			pt = mt.getPoints();
-			sb.append(String.format("\t%d points",pt)+LR);
+			sb.append(String.format("\t%d pts",pt)+LR);
 			pts+=pt;
 		}
-		sb.append("  points: "+pts+LR+LR);
+		sb.append("  points: "+pts+"/"+(3*this.matchTipps.size())+LR+LR);
 		return sb.toString();
 	}
 
+	public int getCorrects() {
+		int pts=0;
+		for(MatchTipp mt: this.matchTipps)
+		{
+			if(mt.isCorrect())
+				pts++;
+		}
+		return pts;
+	}
+	public int getDirections() {
+		int pts=0;
+		for(MatchTipp mt: this.matchTipps)
+		{
+			if(mt.isDirection())
+				pts++;
+		}
+		return pts;	
+	}
 	public int getPoints() {
 		int pts=0;
 		for(MatchTipp mt: this.matchTipps)
@@ -51,6 +69,10 @@ public class TippValidationResult {
 
 	public int getMaxPoints() {
 		return 3*this.matchTipps.size();
+	}
+
+	public int getNumMatches() {
+		return this.matchTipps.size();
 	}
 
 }

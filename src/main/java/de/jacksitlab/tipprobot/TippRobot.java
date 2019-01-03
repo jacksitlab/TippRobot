@@ -78,8 +78,8 @@ public class TippRobot {
 	}
 
 	public void pushTipps(DatabaseConfig dbConfig, MatchTippCollection tipps) {
-		// TODO Auto-generated method stub
-		
+		MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
+		db.updateTipps(tipps);
 	}
 
 	public TippValidationResults validate() {

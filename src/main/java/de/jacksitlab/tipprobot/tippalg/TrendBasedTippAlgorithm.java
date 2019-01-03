@@ -15,8 +15,8 @@ public class TrendBasedTippAlgorithm extends BaseTippAlgorithm{
 
 	private static final Logger LOG = Logger.getLogger(TrendBasedTippAlgorithm.class.getName());
 
-	private static final int LIMIT_LASTGAMES = 5;
-	private static float MEANDIFF_TO_WIN = 1.2f;
+	public static final int LIMIT_LASTGAMES = 5;
+	private static float MEANDIFF_TO_WIN = 1.0f;
 	public static void setMeanDiffToWin(float f)
 	{
 		MEANDIFF_TO_WIN = f;
@@ -35,9 +35,9 @@ public class TrendBasedTippAlgorithm extends BaseTippAlgorithm{
 		TeamStats guestStats = guestTrend.getStatistics(match.guestTeam);
 		float homeMeanPts = homeStats.getPointsMean();
 		float guestMeanPts = guestStats.getPointsMean();
-		LOG.debug(String.format("gameday=%d homepts=%f guestpts=%f",gameDay,homeMeanPts,guestMeanPts));
 		
-		float scoreValue = Math.abs(homeMeanPts-guestMeanPts)<=MEANDIFF_TO_WIN?0:(homeMeanPts-guestMeanPts)*2f;
+		float scoreValue = (homeMeanPts-guestMeanPts);
+		LOG.debug(String.format("gameday=%d homepts=%f guestpts=%f score=%f",gameDay,homeMeanPts,guestMeanPts,scoreValue));
 		MatchScore score  = new MatchScore(scoreValue );
 		return score.getTipp(match, homeStats, guestStats);
 		/*

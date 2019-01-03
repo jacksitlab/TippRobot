@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import de.jacksitlab.tipprobot.data.LigaTable;
 import de.jacksitlab.tipprobot.data.Match;
+import de.jacksitlab.tipprobot.data.MatchTippCollection;
 import de.jacksitlab.tipprobot.data.Team;
 import de.jacksitlab.tipprobot.data.TeamCollection;
 
@@ -139,6 +140,11 @@ public class MeineLigaDatabase extends Database {
 			}
 		}
 		return list;
+	}
+
+	public void updateTipps(MatchTippCollection tipps) {
+		//update if exists
+		//else insert
 	}
 
 }
