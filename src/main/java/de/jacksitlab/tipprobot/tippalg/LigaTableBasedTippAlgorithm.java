@@ -3,6 +3,7 @@ package de.jacksitlab.tipprobot.tippalg;
 import de.jacksitlab.tipprobot.data.GameDay;
 import de.jacksitlab.tipprobot.data.LigaTable;
 import de.jacksitlab.tipprobot.data.Match;
+import de.jacksitlab.tipprobot.data.MatchScore;
 import de.jacksitlab.tipprobot.data.MatchTipp;
 import de.jacksitlab.tipprobot.data.TeamStats;
 import de.jacksitlab.tipprobot.data.TippValidationResult;
@@ -21,11 +22,15 @@ public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 	}
 	public static MatchTipp getTipp(int gameDay, Match m,LigaTable table) {
 
-		int homePts = 0;
-		int guestPts = 0;
+//		int homePts = 0;
+//		int guestPts = 0;
 		int diff = table.getPosition(m.homeTeam) - table.getPosition(m.guestTeam);
 		TeamStats sHome = table.getStats(m.homeTeam);
 		TeamStats sGuest = table.getStats(m.guestTeam);
+		float scoreValue = diff<=DIFF_FOR_DRAW?(0):((float)diff/9.0f);
+		MatchScore score = new MatchScore(scoreValue );
+		return score.getTipp(m, sHome, sGuest);
+		/*
 		if (Math.abs(diff) <= DIFF_FOR_DRAW) // set as draw
 		{
 			int hlp = 0;
@@ -63,6 +68,7 @@ public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 		}
 
 		return new MatchTipp(m, homePts, guestPts);
+		*/
 	}
 
 	@Override

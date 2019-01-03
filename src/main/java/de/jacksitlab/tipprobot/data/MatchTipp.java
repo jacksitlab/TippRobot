@@ -8,11 +8,15 @@ public class MatchTipp{
 	}
 	public final Match gameInfos;
 	public Tipp tippInfos;
+	private MatchScore score;
 	
 	public MatchTipp(Match g, int homePts, int guestPts)
 	{
 		this.gameInfos = g;
 		this.setTipp(homePts, guestPts);
+	}
+	public void setScore(MatchScore s) {
+		this.score=s;
 	}
 	public void setTipp(int homePts,int guestPts)
 	{

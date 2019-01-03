@@ -6,6 +6,7 @@ import de.jacksitlab.tipprobot.data.GameDay;
 import de.jacksitlab.tipprobot.data.LigaTable;
 import de.jacksitlab.tipprobot.data.Match;
 import de.jacksitlab.tipprobot.data.MatchCollection;
+import de.jacksitlab.tipprobot.data.MatchScore;
 import de.jacksitlab.tipprobot.data.MatchTipp;
 import de.jacksitlab.tipprobot.data.TeamStats;
 import de.jacksitlab.tipprobot.data.TippValidationResult;
@@ -27,14 +28,19 @@ public class TrendBasedTippAlgorithm extends BaseTippAlgorithm{
 	
 	@Override
 	public MatchTipp getTipp(int gameDay, Match match) {
-		int homepts=0,guestpts=0;
+		//int homepts=0,guestpts=0;
 		MatchCollection homeTrend = this.table.getGameDays().getLastMatchesBefore(gameDay, match.homeTeam, LIMIT_LASTGAMES);
 		MatchCollection guestTrend = this.table.getGameDays().getLastMatchesBefore(gameDay, match.guestTeam, LIMIT_LASTGAMES);
 		TeamStats homeStats = homeTrend.getStatistics(match.homeTeam);
 		TeamStats guestStats = guestTrend.getStatistics(match.guestTeam);
 		float homeMeanPts = homeStats.getPointsMean();
 		float guestMeanPts = guestStats.getPointsMean();
-		LOG.debug(String.format("homepts=%f guestpts=%f",homeMeanPts,guestMeanPts));
+		LOG.debug(String.format("gameday=%d homepts=%f guestpts=%f",gameDay,homeMeanPts,guestMeanPts));
+		
+		float scoreValue = Math.abs(homeMeanPts-guestMeanPts)<=MEANDIFF_TO_WIN?0:(homeMeanPts-guestMeanPts)*2f;
+		MatchScore score  = new MatchScore(scoreValue );
+		return score.getTipp(match, homeStats, guestStats);
+		/*
 		if(Math.abs(homeMeanPts-guestMeanPts)>MEANDIFF_TO_WIN)
 		{
 			int difpts = (int)(Math.abs(homeMeanPts-guestMeanPts)*2.0f/MEANDIFF_TO_WIN);
@@ -62,6 +68,7 @@ public class TrendBasedTippAlgorithm extends BaseTippAlgorithm{
 		}
 		
 		return new MatchTipp(match,homepts,guestpts);
+		*/
 	}
 
 	@Override
