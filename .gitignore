@@ -5,3 +5,4 @@ build/
 .jar
 .settings
 dbconfig.json
+hs*.log
