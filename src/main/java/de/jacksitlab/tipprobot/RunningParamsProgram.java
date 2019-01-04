@@ -96,6 +96,7 @@ public class RunningParamsProgram {
 					TrendAndLigaTableBasedTippAlgorithm.setFactor(params.getCombinedWeightFactor());
 					TrendBasedTippAlgorithm.setMeanDiffToWin(params.getTrendDiffToWin());
 					LigaTableBasedTippAlgorithm.setDiffForDraw(params.getTableDiffForDraw());
+					LigaTableBasedTippAlgorithm.setDividerForScore(params.getDividerForScore());
 					TippValidationResults r = robot.validate();
 					params.setResult(r.getTippResult());
 					out(params.toString());

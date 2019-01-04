@@ -10,9 +10,13 @@ import de.jacksitlab.tipprobot.data.TippValidationResult;
 
 public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 
+	private static float DIV_FOR_SCORE = 9.0f;
 	private static int DIFF_FOR_DRAW = 8;
 	public static void setDiffForDraw(int diffordraw) {
 		DIFF_FOR_DRAW=diffordraw;
+	}
+	public static void setDividerForScore(float f) {
+		DIV_FOR_SCORE = f;
 	}
 	public LigaTableBasedTippAlgorithm(LigaTable lt) {
 		super(lt);
@@ -30,7 +34,7 @@ public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 		TeamStats sHome = table.getStats(m.homeTeam);
 		TeamStats sGuest = table.getStats(m.guestTeam);
 		//float scoreValue = fac*(diff<=DIFF_FOR_DRAW?((float)diff/13.0f):((float)diff/9.0f));
-		float scoreValue = (diff<=DIFF_FOR_DRAW?(0):((float)diff/9.0f));
+		float scoreValue = (diff<=DIFF_FOR_DRAW?(0):((float)diff/DIV_FOR_SCORE));
 		MatchScore score = new MatchScore(scoreValue );
 		return score.getTipp(m, sHome, sGuest);
 		/*
