@@ -8,11 +8,15 @@ package de.jacksitlab.tipprobot.data;
  */
 public class MatchScore {
 
-	private static final int VAR1 = 0;
-	private static final int VAR2 = 1;
-	private static final int VAR3 = 2;
+	public static final int VAR1 = 0;
+	public static final int VAR2 = 1;
+	public static final int VAR3 = 2;
+	public static final int VAR4 = 3;
 	public static int VAR = VAR3;
 	private static float EPS_FOR_DRAW = 0.2f;
+	public static void setCalcVar(int v) {
+		VAR=v;
+	}
 	public static void setEpsForDraw(float e) {
 		EPS_FOR_DRAW = e;
 	}
@@ -42,23 +46,27 @@ public class MatchScore {
 		int homePts = 0;
 		int guestPts = 0;
 		if (Math.abs(this.value) <= EPS_FOR_DRAW) {
-			homePts = guestPts = (homeTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean() + guestTeam.getGoalsMean()
-					+ guestTeam.getGoalsAgainstMean()) / 4;
+			homePts = guestPts = Math.round((float)(homeTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean() + guestTeam.getGoalsMean()
+					+ guestTeam.getGoalsAgainstMean()) / 4.0f);
 		} else {
 			if(VAR==VAR1)
 			{
-			homePts = (int) (this.value * (float) (homeTeam.getGoalsMean() + guestTeam.getGoalsAgainstMean()) / 2.0f);
-			guestPts = (int) (this.value * (float) (guestTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean()) / 2.0f);
+			homePts = Math.round(this.value * (float) (homeTeam.getGoalsMean() + guestTeam.getGoalsAgainstMean()) / 2.0f);
+			guestPts = Math.round(this.value * (float) (guestTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean()) / 2.0f);
 			}
 			else if(VAR ==VAR2)
 			{
-				homePts=(int) (this.value*homeTeam.getGoalsMean());
-				guestPts = (int) (this.value*homeTeam.getGoalsAgainstMean());
+				homePts= Math.round(this.value*homeTeam.getGoalsMean());
+				guestPts = Math.round(this.value*homeTeam.getGoalsAgainstMean());
 			}
 			else if(VAR ==VAR3)
 			{
 				homePts=(int) (homeTeam.getGoalsMean());
 				guestPts = (int) (homeTeam.getGoalsAgainstMean());
+			}else if(VAR ==VAR4)
+			{
+				homePts=Math.round(homeTeam.getGoalsMean());
+				guestPts = Math.round(homeTeam.getGoalsAgainstMean());
 			}
 			
 			if (this.value > 0) {

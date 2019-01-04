@@ -2,6 +2,7 @@ package de.jacksitlab.tipprobot.data;
 
 public class TeamStats {
 
+	private static final boolean EXACT = true;
 	private final int teamId;
 	private int games;
 	private int wins;
@@ -51,12 +52,18 @@ public class TeamStats {
 		return this.teamId;
 	}
 
-	public int getGoalsMean() {
-		return this.games <= 0 ? 0 : Math.round(this.goals / this.games);
+	public float getGoalsMean() {
+		if(!EXACT)
+			return this.games <= 0 ? 0 : (int)(this.goals / this.games);
+		else
+			return this.games <= 0 ? 0 : ((float)this.goals / (float)this.games);
 	}
 
-	public int getGoalsAgainstMean() {
-		return this.games <= 0 ? 0 : Math.round(this.goalsAgainst / this.games);
+	public float getGoalsAgainstMean() {
+		if(!EXACT)
+			return this.games <= 0 ? 0 : (int)(this.goalsAgainst / this.games);
+		else
+			return this.games <= 0 ? 0 : ((float)this.goalsAgainst / (float)this.games);
 	}
 
 	public void clear() {

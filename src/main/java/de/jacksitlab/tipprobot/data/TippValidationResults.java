@@ -61,6 +61,13 @@ public class TippValidationResults extends ArrayList<TippValidationResult>{
 			pts+=r.getNumMatches();
 		return pts;
 	}
+
+	public TippResult getTippResult() {
+		TippResult pts=new TippResult();
+		for(TippValidationResult r:this)
+			pts.add(r.getTippResult());
+		return pts;
+	}
 	
 	
 }

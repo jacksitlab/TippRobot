@@ -75,4 +75,20 @@ public class TippValidationResult {
 		return this.matchTipps.size();
 	}
 
+	public TippResult getTippResult() {
+		int c=0,d=0,w=0;
+		for(MatchTipp mt: this.matchTipps)
+		{
+			if(mt.isCorrect())
+				c++;
+			else if(mt.isDirection())
+				d++;
+			else 
+				w++;
+			
+		}
+		return new TippResult(c, d, w, c+d+w);
+	
+	}
+
 }

@@ -3,7 +3,6 @@ package de.jacksitlab.tipprobot.tippalg;
 import de.jacksitlab.tipprobot.data.GameDay;
 import de.jacksitlab.tipprobot.data.LigaTable;
 import de.jacksitlab.tipprobot.data.Match;
-import de.jacksitlab.tipprobot.data.MatchCollection;
 import de.jacksitlab.tipprobot.data.MatchScore;
 import de.jacksitlab.tipprobot.data.MatchTipp;
 import de.jacksitlab.tipprobot.data.TeamStats;
