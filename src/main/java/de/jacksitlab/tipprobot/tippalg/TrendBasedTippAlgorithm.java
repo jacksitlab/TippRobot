@@ -28,7 +28,7 @@ public class TrendBasedTippAlgorithm extends BaseTippAlgorithm{
 	
 	@Override
 	public MatchTipp getTipp(int gameDay, Match match) {
-		//int homepts=0,guestpts=0;
+
 		MatchCollection homeTrend = this.table.getGameDays().getLastMatchesBefore(gameDay, match.homeTeam, LIMIT_LASTGAMES);
 		MatchCollection guestTrend = this.table.getGameDays().getLastMatchesBefore(gameDay, match.guestTeam, LIMIT_LASTGAMES);
 		TeamStats homeStats = homeTrend.getStatistics(match.homeTeam);
@@ -36,39 +36,10 @@ public class TrendBasedTippAlgorithm extends BaseTippAlgorithm{
 		float homeMeanPts = homeStats.getPointsMean();
 		float guestMeanPts = guestStats.getPointsMean();
 		
-		float scoreValue = (homeMeanPts-guestMeanPts);
+		float scoreValue = (homeMeanPts-guestMeanPts)>MEANDIFF_TO_WIN?(homeMeanPts-guestMeanPts):0;
 		LOG.debug(String.format("gameday=%d homepts=%f guestpts=%f score=%f",gameDay,homeMeanPts,guestMeanPts,scoreValue));
 		MatchScore score  = new MatchScore(scoreValue );
 		return score.getTipp(match, homeStats, guestStats);
-		/*
-		if(Math.abs(homeMeanPts-guestMeanPts)>MEANDIFF_TO_WIN)
-		{
-			int difpts = (int)(Math.abs(homeMeanPts-guestMeanPts)*2.0f/MEANDIFF_TO_WIN);
-			LOG.debug(String.format("someone wins with %d goals",difpts));
-			if(homeMeanPts>guestMeanPts)
-			{
-				homepts = homeStats.getGoalsMean();
-				guestpts = homepts-difpts;
-				while(guestpts<0) {
-					homepts++;guestpts++;
-				}
-			}
-			else
-			{
-				guestpts = guestStats.getGoalsMean();
-				homepts = guestpts-difpts;
-				while(homepts<0) {
-					homepts++;guestpts++;
-				}
-			}
-		}
-		else
-		{
-			homepts = guestpts = (int)(homeStats.getGoalsMean()+guestStats.getGoalsMean())/2;
-		}
-		
-		return new MatchTipp(match,homepts,guestpts);
-		*/
 	}
 
 	@Override

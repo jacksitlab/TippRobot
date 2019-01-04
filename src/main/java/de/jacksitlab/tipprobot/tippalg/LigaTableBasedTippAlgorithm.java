@@ -26,8 +26,6 @@ public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 	}
 	public static MatchTipp getTipp(int gameDay, Match m,LigaTable table) {
 
-//		int homePts = 0;
-//		int guestPts = 0;
 		int diff = table.getPosition(m.homeTeam) - table.getPosition(m.guestTeam);
 		int sum=(table.getPosition(m.homeTeam)+table.getPosition(m.guestTeam));
 		float fac=1.0f;//sum<12?30.0f:1.0f;
@@ -37,45 +35,6 @@ public class LigaTableBasedTippAlgorithm extends BaseTippAlgorithm {
 		float scoreValue = (diff<=DIFF_FOR_DRAW?(0):((float)diff/DIV_FOR_SCORE));
 		MatchScore score = new MatchScore(scoreValue );
 		return score.getTipp(m, sHome, sGuest);
-		/*
-		if (Math.abs(diff) <= DIFF_FOR_DRAW) // set as draw
-		{
-			int hlp = 0;
-			if (sHome != null)
-				hlp += sHome.getGoalsMean();
-			if (sGuest != null)
-				hlp += sGuest.getGoalsMean();
-			homePts = guestPts = Math.round(hlp / 2);
-		} else if (diff > 0) // home team wins
-		{
-			if (sHome != null)
-				homePts = sHome.getGoalsMean();
-			if (sGuest != null)
-				guestPts = sGuest.getGoalsMean();
-			// fix guest points to loose
-			if (guestPts >= homePts) {
-				if (homePts > 0)
-					guestPts = homePts - 1;
-				else
-					homePts = guestPts + 1;
-			}
-		} else // guest team wins
-		{
-			if (sHome != null)
-				homePts = sHome.getGoalsMean();
-			if (sGuest != null)
-				guestPts = sGuest.getGoalsMean();
-			// fix home points to loose
-			if (homePts >= guestPts) {
-				if (guestPts > 0)
-					homePts = guestPts - 1;
-				else
-					guestPts = homePts + 1;
-			}
-		}
-
-		return new MatchTipp(m, homePts, guestPts);
-		*/
 	}
 
 	@Override

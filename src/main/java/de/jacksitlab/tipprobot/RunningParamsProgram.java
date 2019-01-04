@@ -39,12 +39,13 @@ public class RunningParamsProgram {
 
 	public static void main(String[] args) {
 
-		int ligaId = 16;
+		int ligaId = 17;
 		DatabaseConfig dbConfig = null;
 		String dbFilename = null;
 		int tippAlgId = TippAlgorithmFactory.ID_LIGABASED;
 		boolean run = true;
 		boolean silentMode = false;
+		final boolean PRINTALL=false;
 		String logLevel = "DEBUG";
 		if (args != null && args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
@@ -89,23 +90,31 @@ public class RunningParamsProgram {
 				List<AlgorithmParameters> paramslist = AlgorithmParameters.combine();
 				TippRobot robot = new TippRobot(ligaId, tippAlgId);
 				robot.load(dbConfig);
-
+				int size=paramslist.size(),i=0,DIV=size/300;
 				for (AlgorithmParameters params : paramslist) {
 					MatchScore.setCalcVar(params.getResultCalculationParam());
 					MatchScore.setEpsForDraw(params.getResultCalcEpsToDraw());
+					MatchScore.setMaxGoalDifference(params.getMaxGoalDifference());
 					TrendAndLigaTableBasedTippAlgorithm.setFactor(params.getCombinedWeightFactor());
 					TrendBasedTippAlgorithm.setMeanDiffToWin(params.getTrendDiffToWin());
 					LigaTableBasedTippAlgorithm.setDiffForDraw(params.getTableDiffForDraw());
 					LigaTableBasedTippAlgorithm.setDividerForScore(params.getDividerForScore());
 					TippValidationResults r = robot.validate();
-					params.setResult(r.getTippResult());
-					out(params.toString());
+						params.setResult(r.getTippResult());
+						if(PRINTALL)
+							out(params.toString());
+						else
+						{
+							if(i%DIV==0)
+								out(String.format("%2.2f%%",(float)i*100/(float)size));
+							i++;
+						}
 				}
 				paramslist.sort(new AlgorithmParameters.AlgorithmParametersComparator());
 				//output top 10
 				out("======================\n");
 				out("======TOP10===========\n");	
-				for(int i=0;i<10;i++)
+				for(i=0;i<10;i++)
 				{
 					out(paramslist.get(i).toString());
 				}

@@ -49,6 +49,9 @@ public class Program {
 				if (args[i].equals("--db")) {
 					dbFilename = args[i + 1];
 					i++;
+				} else if (args[i].equals("--id")) {
+					ligaId = Integer.parseInt(args[i + 1]);
+					i++;
 				} else if (args[i].equals("--alg")) {
 					int x = Integer.parseInt(args[i + 1]);
 					if (TippAlgorithmFactory.validate(x))

@@ -12,76 +12,87 @@ public class MatchScore {
 	public static final int VAR2 = 1;
 	public static final int VAR3 = 2;
 	public static final int VAR4 = 3;
-	public static int VAR = VAR3;
+	public static final int VAR5 = 4;
+	private static int MAX_GOAL_DIFFERENCE = 2;
+	public static int VAR = VAR5;
 	private static float EPS_FOR_DRAW = 0.2f;
-	public static void setCalcVar(int v) {
-		VAR=v;
+
+	public static void setMaxGoalDifference(int x) {
+		MAX_GOAL_DIFFERENCE = x;
 	}
+	public static void setCalcVar(int v) {
+		VAR = v;
+	}
+
 	public static void setEpsForDraw(float e) {
 		EPS_FOR_DRAW = e;
 	}
+
 	private float value;
 
 	public float getValue() {
 		return this.value;
 	}
 
-	public void addScore(float v,float weight) {
-		if(weight>1)
-			weight=1;
-		if(weight<0)
-			weight=0;
-		this.value = (weight*v) + ((1-weight)*this.value) ;
+	public void addScore(float v, float weight) {
+		if (weight > 1)
+			weight = 1;
+		if (weight < 0)
+			weight = 0;
+		this.value = (weight * v) + ((1 - weight) * this.value);
 	}
 
 	public MatchScore(float v) {
-		if(v>1)
-			v=1;
-		else if(v<-1)
-			v=-1;
+		if (v > 1)
+			v = 1;
+		else if (v < -1)
+			v = -1;
 		this.value = v;
 	}
 
 	public MatchTipp getTipp(Match match, TeamStats homeTeam, TeamStats guestTeam) {
 		int homePts = 0;
 		int guestPts = 0;
+		int diff = 1;
 		if (Math.abs(this.value) <= EPS_FOR_DRAW) {
-			homePts = guestPts = Math.round((float)(homeTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean() + guestTeam.getGoalsMean()
-					+ guestTeam.getGoalsAgainstMean()) / 4.0f);
+			homePts = guestPts = Math.round((float) (homeTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean()
+					+ guestTeam.getGoalsMean() + guestTeam.getGoalsAgainstMean()) / 4.0f);
 		} else {
-			if(VAR==VAR1)
-			{
-			homePts = Math.round(this.value * (float) (homeTeam.getGoalsMean() + guestTeam.getGoalsAgainstMean()) / 2.0f);
-			guestPts = Math.round(this.value * (float) (guestTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean()) / 2.0f);
-			}
-			else if(VAR ==VAR2)
-			{
-				homePts= Math.round(this.value*homeTeam.getGoalsMean());
-				guestPts = Math.round(this.value*homeTeam.getGoalsAgainstMean());
-			}
-			else if(VAR ==VAR3)
-			{
-				homePts=(int) (homeTeam.getGoalsMean());
+			if (VAR == VAR1) {
+				homePts = Math
+						.round(this.value * (float) (homeTeam.getGoalsMean() + guestTeam.getGoalsAgainstMean()) / 2.0f);
+				guestPts = Math
+						.round(this.value * (float) (guestTeam.getGoalsMean() + homeTeam.getGoalsAgainstMean()) / 2.0f);
+			} else if (VAR == VAR2) {
+				homePts = Math.round(this.value * homeTeam.getGoalsMean());
+				guestPts = Math.round(this.value * homeTeam.getGoalsAgainstMean());
+			} else if (VAR == VAR3) {
+				homePts = (int) (homeTeam.getGoalsMean());
 				guestPts = (int) (homeTeam.getGoalsAgainstMean());
-			}else if(VAR ==VAR4)
-			{
-				homePts=Math.round(homeTeam.getGoalsMean());
+			} else if (VAR == VAR4) {
+				homePts = Math.round(homeTeam.getGoalsMean());
 				guestPts = Math.round(homeTeam.getGoalsAgainstMean());
+			} else if (VAR == VAR5) {
+				homePts = Math.round(homeTeam.getGoalsMean());
+				diff=Math.round(((Math.abs(this.value)-EPS_FOR_DRAW)/(1-EPS_FOR_DRAW)*MAX_GOAL_DIFFERENCE));
 			}
-			
 			if (this.value > 0) {
-				if(guestPts>=homePts)
-					guestPts=homePts-1;
-				while(guestPts<0)
-				{homePts++;guestPts++;}
+				if (guestPts >= homePts)
+					guestPts = homePts - diff;
+				while (guestPts < 0) {
+					homePts++;
+					guestPts++;
+				}
 			} else {
-				if(homePts>=guestPts)
-					homePts=guestPts-1;
-				while(homePts<0)
-				{homePts++;guestPts++;}
+				if (homePts >= guestPts)
+					homePts = guestPts - diff;
+				while (homePts < 0) {
+					homePts++;
+					guestPts++;
+				}
 			}
 		}
-		return new MatchTipp(match, homePts, guestPts,this);
+		return new MatchTipp(match, homePts, guestPts, this);
 	}
 
 }
