@@ -25,8 +25,11 @@ public class TippResult {
 
 	@Override
 	public String toString() {
-		return corrects + "(c) | "+ directions + "(d) | " + wrongs + "(w) | "
-				+ games + "(g) | "+this.getPoints()+"(p)";
+		return String.format("%d(%2.2f%%) | %d(%2.2f%%) | %d(%2.2f%%) => %d",
+				this.corrects,(float)this.corrects*100.0f/(float)this.games,
+				this.directions,(float)this.directions*100.0f/(float)this.games,
+				this.wrongs,(float)this.wrongs*100.0f/(float)this.games,
+				this.getPoints());
 	}
 
 	public void add(TippResult r) {
