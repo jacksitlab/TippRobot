@@ -25,7 +25,7 @@ public class DBConnectionTest {
 		}
 		assertNotNull("failed loading config",dbConfig);
 		MeineLigaDatabase db = new MeineLigaDatabase(dbConfig);
-		TeamCollection teams = db.loadTeams(11);
+		TeamCollection teams = db.loadTeams(16);
 		assertNotNull("no data found", teams);
 		System.out.println(teams.toString());
 	}
