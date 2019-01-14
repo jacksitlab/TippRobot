@@ -136,4 +136,12 @@ public class LigaTable {
 	private static void addMatchToStats(TeamStatsCollection c, Match match) {
 		c.addMatch(match);	
 	}
+	public MatchCollection getAllMatches() {
+		MatchCollection c=new MatchCollection();
+		for(GameDay gd:this.gameDays)
+		{
+			c.addAll(gd.getMatches());
+		}
+		return c;
+	}
 }

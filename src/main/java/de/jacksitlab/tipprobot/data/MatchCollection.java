@@ -19,4 +19,16 @@ public class MatchCollection extends ArrayList<Match>{
 		return stats;
 	}
 
+	public Match find(Team home, Team guest) {
+		if(home==null || guest==null)
+			return null;
+		for(Match m:this)
+		{
+			if(m.homeTeam.equals(home) && m.guestTeam.equals(guest))
+				return m;
+		}
+		
+		return null;
+	}
+
 }

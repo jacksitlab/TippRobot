@@ -2,7 +2,7 @@ package de.jacksitlab.tipprobot.betproviders;
 
 import de.jacksitlab.tipprobot.data.MatchBetQuoteCollection;
 
-public abstract class BaseBetProvider {
+public interface BaseBetProvider {
 
-	public abstract MatchBetQuoteCollection getBets(int liga,int gameday);
+	public MatchBetQuoteCollection getBets(int liga,int gameday);
 }

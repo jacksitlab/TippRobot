@@ -17,4 +17,21 @@ public class TeamCollection extends ArrayList<Team> {
 		return null;
 	}
 
+	public Team find(String home) {
+		float f=0,h;
+		Team x=null;
+		for(Team t:this)
+		{
+			h=Helper.correlate(home, t.getTitle());
+			if(h>f)
+			{
+				f=h;
+				x=t;
+				if(f==1.0f)
+					break;
+			}
+		}
+		return f>0.6?x:null;
+	}
+
 }
